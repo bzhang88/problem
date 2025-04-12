@@ -423,7 +423,7 @@ public class MyTest {
         @Test
         @DisplayName("3.1. input type is null")
         public void testGetTypeWithNullType() {
-            AbstractThrowableProblem problem = new DefaultProblem(
+            DefaultProblem problem = new DefaultProblem(
                     null, null, null, null, null, null, null);
 
             assertEquals(Problem.DEFAULT_TYPE, problem.getType());
@@ -433,7 +433,7 @@ public class MyTest {
         @DisplayName("3.2. input type is a standard URI")
         public void testGetTypeWithStandardUri() {
             URI standardUri = URI.create("https://example.org/problems/test");
-            AbstractThrowableProblem problem = new DefaultProblem(
+            DefaultProblem problem = new DefaultProblem(
                     standardUri, null, null, null, null, null, null);
 
             assertEquals(standardUri, problem.getType());
@@ -443,7 +443,7 @@ public class MyTest {
         @DisplayName("3.3. input type is a custom scheme URI")
         public void testGetTypeWithCustomSchemeUri() {
             URI customUri = URI.create("problem:out-of-stock");
-            AbstractThrowableProblem problem = new DefaultProblem(
+            DefaultProblem problem = new DefaultProblem(
                     customUri, null, null, null, null, null, null);
 
             assertEquals(customUri, problem.getType());
@@ -453,7 +453,7 @@ public class MyTest {
         @DisplayName("3.4. input type is a URI with query parameters")
         public void testGetTypeWithUriWithQueryParameters() {
             URI uriWithQuery = URI.create("https://example.org/problems/test?param=value");
-            AbstractThrowableProblem problem = new DefaultProblem(
+            DefaultProblem problem = new DefaultProblem(
                     uriWithQuery, null, null, null, null, null, null);
 
             assertEquals(uriWithQuery, problem.getType());
@@ -463,7 +463,7 @@ public class MyTest {
         @DisplayName("3.5. input type is a URI with fragment")
         public void testGetTypeWithUriWithFragment() {
             URI uriWithFragment = URI.create("https://example.org/problems/test#section");
-            AbstractThrowableProblem problem = new DefaultProblem(
+            DefaultProblem problem = new DefaultProblem(
                     uriWithFragment, null, null, null, null, null, null);
 
             assertEquals(uriWithFragment, problem.getType());
@@ -475,7 +475,7 @@ public class MyTest {
         @Test
         @DisplayName("4.1 title is null")
         public void testGetTitleWithNullTitle() {
-            AbstractThrowableProblem problem = new DefaultProblem(
+            DefaultProblem problem = new DefaultProblem(
                     null, null, null, null, null, null, null);
 
             assertNull(problem.getTitle());
@@ -485,7 +485,7 @@ public class MyTest {
         @DisplayName("4.2 non-empty title")
         public void testGetTitleWithNonEmptyTitle() {
             String title = "Test Problem";
-            AbstractThrowableProblem problem = new DefaultProblem(
+            DefaultProblem problem = new DefaultProblem(
                     null, title, null, null, null, null, null);
 
             assertEquals(title, problem.getTitle());
@@ -494,7 +494,7 @@ public class MyTest {
         @Test
         @DisplayName("4.3 when title is empty")
         public void testGetTitleWithEmptyTitle() {
-            AbstractThrowableProblem problem = new DefaultProblem(
+            DefaultProblem problem = new DefaultProblem(
                     null, "", null, null, null, null, null);
 
             assertEquals("", problem.getTitle());
@@ -504,7 +504,7 @@ public class MyTest {
         @DisplayName("4.4 title with special characters")
         public void testGetTitleWithSpecialCharacters() {
             String titleWithSpecialChars = "Problem: 特殊字符 & <symbols> 😀";
-            AbstractThrowableProblem problem = new DefaultProblem(
+            DefaultProblem problem = new DefaultProblem(
                     null, titleWithSpecialChars, null, null, null, null, null);
 
             assertEquals(titleWithSpecialChars, problem.getTitle());
@@ -514,7 +514,7 @@ public class MyTest {
         @DisplayName("4.5 very long title")
         public void testGetTitleWithVeryLongTitle() {
             String longTitle = "This is a very long title that contains more than a hundred characters to test how the getTitle method handles long string values.";
-            AbstractThrowableProblem problem = new DefaultProblem(
+            DefaultProblem problem = new DefaultProblem(
                     null, longTitle, null, null, null, null, null);
 
             assertEquals(longTitle, problem.getTitle());
@@ -522,7 +522,83 @@ public class MyTest {
     }
 
     @Nested
-    class TestCase_5_DefaultProblem_GetTypeFunction {
+    class TestCase_5_DefaultProblem_GetNameFunction {
+        private static class TestStatus implements StatusType {
+            private final int code;
+            private final String reason;
+
+            public TestStatus(int code, String reason) {
+                this.code = code;
+                this.reason = reason;
+            }
+
+            @Override
+            public int getStatusCode() {
+                return code;
+            }
+
+            @Override
+            public String getReasonPhrase() {
+                return reason;
+            }
+        }
+
+        @Test
+        @DisplayName("5.1. status is null")
+        public void testGetStatusWithNullStatus() {
+            DefaultProblem problem = new DefaultProblem(
+                    null, null, null, null, null, null, null);
+
+            assertNull(problem.getStatus());
+        }
+
+        @Test
+        @DisplayName("5.2. standard HTTP status")
+        public void testGetStatusWithStandardHttpStatus() {
+            StatusType status = new TestStatus(404, "Not Found");
+            DefaultProblem problem = new DefaultProblem(
+                    null, null, status, null, null, null, null);
+
+            assertEquals(status, problem.getStatus());
+            assertEquals(404, problem.getStatus().getStatusCode());
+            assertEquals("Not Found", problem.getStatus().getReasonPhrase());
+        }
+
+        @Test
+        @DisplayName("5.3. custom status")
+        public void testGetStatusWithCustomStatus() {
+            StatusType status = new TestStatus(418, "I'm a teapot");
+            DefaultProblem problem = new DefaultProblem(
+                    null, null, status, null, null, null, null);
+
+            assertEquals(status, problem.getStatus());
+            assertEquals(418, problem.getStatus().getStatusCode());
+            assertEquals("I'm a teapot", problem.getStatus().getReasonPhrase());
+        }
+
+        @Test
+        @DisplayName("5.4. error status")
+        public void testGetStatusWithErrorStatus() {
+            StatusType status = new TestStatus(500, "Internal Server Error");
+            DefaultProblem problem = new DefaultProblem(
+                    null, null, status, null, null, null, null);
+
+            assertEquals(status, problem.getStatus());
+            assertEquals(500, problem.getStatus().getStatusCode());
+            assertEquals("Internal Server Error", problem.getStatus().getReasonPhrase());
+        }
+
+        @Test
+        @DisplayName("5.5. redirect status")
+        public void testGetStatusWithRedirectStatus() {
+            StatusType status = new TestStatus(302, "Found");
+            DefaultProblem problem = new DefaultProblem(
+                    null, null, status, null, null, null, null);
+
+            assertEquals(status, problem.getStatus());
+            assertEquals(302, problem.getStatus().getStatusCode());
+            assertEquals("Found", problem.getStatus().getReasonPhrase());
+        }
     }
 
     @Nested
