@@ -1,20 +1,26 @@
 package org.zalando.problem;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import javax.xml.crypto.Data;
 import java.net.URI;
+import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class MyTest {
     @Nested
-    class TestCase_1_DefaultProblem {
+    class TestCase_1_DefaultProblem_Creation {
 
         private static class TestStatus implements StatusType {
             @Override
@@ -312,6 +318,136 @@ public class MyTest {
             assertNull(problem.getCause());
             assertEquals(PARAMETERS, problem.getParameters());
         }
+    }
+
+    @Nested
+    class TestCase_2_DefaultProblem_SetParametersFunction {
+        private DefaultProblem problem;
+
+        @BeforeEach
+        public void setUp() {
+            problem = new DefaultProblem(null, null, null, null, null, null, null);
+        }
+
+        @Test
+        @DisplayName("1. noInput")
+        public void testGetParametersWithNoInput() {
+            assertTrue(problem.getParameters().isEmpty());
+        }
+
+        @Test
+        @DisplayName("2. input Object is null")
+        public void testGetParametersWithObjectNull() {
+            problem.set("null", null);
+
+            assertEquals(1, problem.getParameters().size());
+            assertNull(problem.getParameters().get("null"));
+        }
+
+        @Test
+        @DisplayName("3. input String is null")
+        public void testGetParametersWithKeyNull() {
+            problem.set(null, "null");
+
+            assertEquals(1, problem.getParameters().size());
+            for (Map.Entry<String, Object> entry : problem.getParameters().entrySet()) {
+                if (entry.getValue().equals("null")) {
+                    assertNull(entry.getKey());
+                }
+            }
+        }
+
+        @Test
+        @DisplayName("4. Both input is null")
+        public void testGetParametersWithBothNull() {
+            problem.set(null, null);
+            assertEquals(1, problem.getParameters().size());
+
+            Map.Entry<String, Object> firstEntry = null;
+            for (Map.Entry<String, Object> entry : problem.getParameters().entrySet()) {
+                firstEntry = entry;
+                break;
+            }
+            assertNull(firstEntry.getKey());
+            assertNull(firstEntry.getValue());
+        }
+
+        @Test
+        @DisplayName("5. set (add) a parameter")
+        public void testGetParametersWithDiffTypeMap() {
+            problem.set("key", "value");
+            assertEquals(1, problem.getParameters().size());
+            assertEquals("value", problem.getParameters().get("key"));
+        }
+
+        @Test
+        @DisplayName("6. override an existing parameter")
+        public void testGetParametersWithOverride() {
+            problem.set("key", "value1");
+            problem.set("key", "value2");
+
+            assertEquals(1, problem.getParameters().size());
+            assertEquals("value2", problem.getParameters().get("key"));
+        }
+
+        @Test
+        @DisplayName("7. set (add) many different type of Object parameter")
+        public void testGetParametersWithMultType() {
+            List<String> array = Arrays.asList("reading", "gaming", "hiking");
+            Map<String, Object> someMap = new HashMap<>() {{
+                put("name", "Alice");
+                put("age", 30);
+                put("isMember", true);
+            }};
+            LocalDate data = LocalDate.of(2023, 10, 15);
+            problem.set("stringParam", "value");
+            problem.set("intParam", 42);
+            problem.set("boolParam", true);
+            problem.set("hobbies", array);
+            problem.set("customer", someMap);
+            problem.set("eventDate", data);
+
+            assertEquals(6, problem.getParameters().size());
+            assertEquals("value", problem.getParameters().get("stringParam"));
+            assertEquals(42, problem.getParameters().get("intParam"));
+            assertEquals(true, problem.getParameters().get("boolParam"));
+            assertEquals(array, problem.getParameters().get("hobbies"));
+            assertEquals(someMap, problem.getParameters().get("customer"));
+            assertEquals(data, problem.getParameters().get("eventDate"));
+        }
+
+    }
+
+    @Nested
+    class TestCase_3_DefaultProblem_SetFunction {
+    }
+
+    @Nested
+    class TestCase_4 {
+    }
+
+    @Nested
+    class TestCase_5 {
+    }
+
+    @Nested
+    class TestCase_6 {
+    }
+
+    @Nested
+    class TestCase_7 {
+    }
+
+    @Nested
+    class TestCase_8 {
+    }
+
+    @Nested
+    class TestCase_9 {
+    }
+
+    @Nested
+    class TestCase_10 {
     }
 
 
