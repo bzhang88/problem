@@ -602,7 +602,59 @@ public class MyTest {
     }
 
     @Nested
-    class TestCase_6_DefaultProblem_GetTypeFunction {
+    class TestCase_6_DefaultProblem_GetDetailFunction {
+        @Test
+        @DisplayName("6.1. detail is null")
+        public void testGetDetailWithNullDetail() {
+            AbstractThrowableProblem problem = new DefaultProblem(
+                    null, null, null, null, null, null, null);
+
+            assertNull(problem.getDetail());
+        }
+
+        @Test
+        @DisplayName("6.2. non-empty detail")
+        public void testGetDetailWithNonEmptyDetail() {
+            String detail = "This is a test problem detail";
+            AbstractThrowableProblem problem = new DefaultProblem(
+                    null, null, null, detail, null, null, null);
+
+            assertEquals(detail, problem.getDetail());
+        }
+
+        @Test
+        @DisplayName("6.3. detail is empty")
+        public void testGetDetailWithEmptyDetail() {
+            AbstractThrowableProblem problem = new DefaultProblem(
+                    null, null, null, "", null, null, null);
+
+            assertEquals("", problem.getDetail());
+        }
+
+        @Test
+        @DisplayName("6.4. detail with special characters")
+        public void testGetDetailWithSpecialCharacters() {
+            String detailWithSpecialChars = "Detail with \n newlines \t tabs and other \"special\" 'chars'";
+            AbstractThrowableProblem problem = new DefaultProblem(
+                    null, null, null, detailWithSpecialChars, null, null, null);
+
+            assertEquals(detailWithSpecialChars, problem.getDetail());
+        }
+
+        @Test
+        @DisplayName("6.5. very long detail")
+        public void testGetDetailWithVeryLongDetail() {
+            StringBuilder longDetailBuilder = new StringBuilder();
+            for (int i = 0; i < 10; i++) {
+                longDetailBuilder.append("This is a very long detail message. ");
+            }
+            String longDetail = longDetailBuilder.toString();
+
+            AbstractThrowableProblem problem = new DefaultProblem(
+                    null, null, null, longDetail, null, null, null);
+
+            assertEquals(longDetail, problem.getDetail());
+        }
     }
 
     @Nested
