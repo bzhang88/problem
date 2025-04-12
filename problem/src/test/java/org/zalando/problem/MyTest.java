@@ -54,7 +54,7 @@ public class MyTest {
 
 
         @Test
-        @DisplayName("1. Test DefaultProblem with all null")
+        @DisplayName("1.01 Test DefaultProblem with all null")
         public void DefaultProblemWithNull() {
             DefaultProblem problem = new DefaultProblem(
                     null, null, null, null, null, null, null);
@@ -69,7 +69,7 @@ public class MyTest {
         }
 
         @Test
-        @DisplayName("2. Test DefaultProblem with all valid values")
+        @DisplayName("1.02 Test DefaultProblem with all valid values")
         public void DefaultProblemWithAllValid() {
             DefaultProblem problem = new DefaultProblem(
                     VALID_TYPE,
@@ -90,7 +90,7 @@ public class MyTest {
         }
 
         @Test
-        @DisplayName("3. Test DefaultProblem with one null type values")
+        @DisplayName("1.03 Test DefaultProblem with one null type values")
         public void DefaultProblemWithTypeNull() {
             DefaultProblem problem = new DefaultProblem(
                     null,
@@ -111,7 +111,7 @@ public class MyTest {
         }
 
         @Test
-        @DisplayName("4. Test DefaultProblem with one null title values")
+        @DisplayName("1.04 Test DefaultProblem with one null title values")
         public void DefaultProblemWithTitleNull() {
             DefaultProblem problem = new DefaultProblem(
                     VALID_TYPE,
@@ -132,7 +132,7 @@ public class MyTest {
         }
 
         @Test
-        @DisplayName("5. Test DefaultProblem with one null status values")
+        @DisplayName("1.05 Test DefaultProblem with one null status values")
         public void DefaultProblemWithStatusNull() {
             DefaultProblem problem = new DefaultProblem(
                     VALID_TYPE,
@@ -153,7 +153,7 @@ public class MyTest {
         }
 
         @Test
-        @DisplayName("6. Test DefaultProblem with one null detail values")
+        @DisplayName("1.06 Test DefaultProblem with one null detail values")
         public void DefaultProblemWithDetailNull() {
             DefaultProblem problem = new DefaultProblem(
                     VALID_TYPE,
@@ -174,7 +174,7 @@ public class MyTest {
         }
 
         @Test
-        @DisplayName("7. Test DefaultProblem with one null instance values")
+        @DisplayName("1.07 Test DefaultProblem with one null instance values")
         public void DefaultProblemWithInstanceNull() {
             DefaultProblem problem = new DefaultProblem(
                     VALID_TYPE,
@@ -195,7 +195,7 @@ public class MyTest {
         }
 
         @Test
-        @DisplayName("8. Test DefaultProblem with one null cause values")
+        @DisplayName("1.08 Test DefaultProblem with one null cause values")
         public void DefaultProblemWithCauseNull() {
             DefaultProblem problem = new DefaultProblem(
                     VALID_TYPE,
@@ -216,7 +216,7 @@ public class MyTest {
         }
 
         @Test
-        @DisplayName("9. Test DefaultProblem with one null parameters values")
+        @DisplayName("1.09 Test DefaultProblem with one null parameters values")
         public void DefaultProblemWithParametersNull() {
             DefaultProblem problem = new DefaultProblem(
                     VALID_TYPE,
@@ -237,7 +237,7 @@ public class MyTest {
         }
 
         @Test
-        @DisplayName("10.1 Test DefaultProblem with more than one null values")
+        @DisplayName("1.10.1 Test DefaultProblem with more than one null values")
         public void DefaultProblemWithMoreThanOneNull_1() {
             DefaultProblem problem = new DefaultProblem(
                     VALID_TYPE,
@@ -257,7 +257,7 @@ public class MyTest {
             assertTrue(problem.getParameters().isEmpty());
         }
         @Test
-        @DisplayName("10.2 Test DefaultProblem with more than one null values")
+        @DisplayName("1.10.2 Test DefaultProblem with more than one null values")
         public void DefaultProblemWithMoreThanOneNull_2() {
             DefaultProblem problem = new DefaultProblem(
                     VALID_TYPE,
@@ -278,7 +278,7 @@ public class MyTest {
         }
 
         @Test
-        @DisplayName("10.3 Test DefaultProblem with more than one null values")
+        @DisplayName("1.10.3 Test DefaultProblem with more than one null values")
         public void DefaultProblemWithMoreThanOneNull_3() {
             DefaultProblem problem = new DefaultProblem(
                     null,
@@ -299,7 +299,7 @@ public class MyTest {
         }
 
         @Test
-        @DisplayName("10.4 Test DefaultProblem with more than one null values")
+        @DisplayName("1.10.4 Test DefaultProblem with more than one null values")
         public void DefaultProblemWithMoreThanOneNull_4() {
             DefaultProblem problem = new DefaultProblem(
                     null,
@@ -330,13 +330,13 @@ public class MyTest {
         }
 
         @Test
-        @DisplayName("1. noInput")
+        @DisplayName("2.1 noInput")
         public void testGetParametersWithNoInput() {
             assertTrue(problem.getParameters().isEmpty());
         }
 
         @Test
-        @DisplayName("2. input Object is null")
+        @DisplayName("2.2 input Object is null")
         public void testGetParametersWithObjectNull() {
             problem.set("null", null);
 
@@ -345,7 +345,7 @@ public class MyTest {
         }
 
         @Test
-        @DisplayName("3. input String is null")
+        @DisplayName("2.3 input String is null")
         public void testGetParametersWithKeyNull() {
             problem.set(null, "null");
 
@@ -358,7 +358,7 @@ public class MyTest {
         }
 
         @Test
-        @DisplayName("4. Both input is null")
+        @DisplayName("2.4 Both input is null")
         public void testGetParametersWithBothNull() {
             problem.set(null, null);
             assertEquals(1, problem.getParameters().size());
@@ -373,7 +373,7 @@ public class MyTest {
         }
 
         @Test
-        @DisplayName("5. set (add) a parameter")
+        @DisplayName("2.5 set (add) a parameter")
         public void testGetParametersWithDiffTypeMap() {
             problem.set("key", "value");
             assertEquals(1, problem.getParameters().size());
@@ -381,7 +381,7 @@ public class MyTest {
         }
 
         @Test
-        @DisplayName("6. override an existing parameter")
+        @DisplayName("2.6 override an existing parameter")
         public void testGetParametersWithOverride() {
             problem.set("key", "value1");
             problem.set("key", "value2");
@@ -391,7 +391,7 @@ public class MyTest {
         }
 
         @Test
-        @DisplayName("7. set (add) many different type of Object parameter")
+        @DisplayName("2.7 set (add) many different type of Object parameter")
         public void testGetParametersWithMultType() {
             List<String> array = Arrays.asList("reading", "gaming", "hiking");
             Map<String, Object> someMap = new HashMap<>() {{
@@ -419,7 +419,55 @@ public class MyTest {
     }
 
     @Nested
-    class TestCase_3_DefaultProblem_SetFunction {
+    class TestCase_3_DefaultProblem_GetTypeFunction {
+        @Test
+        @DisplayName("3.1. input type is null")
+        public void testGetTypeWithNullType() {
+            AbstractThrowableProblem problem = new DefaultProblem(
+                    null, null, null, null, null, null, null);
+
+            assertEquals(Problem.DEFAULT_TYPE, problem.getType());
+        }
+
+        @Test
+        @DisplayName("3.2. input type is a standard URI")
+        public void testGetTypeWithStandardUri() {
+            URI standardUri = URI.create("https://example.org/problems/test");
+            AbstractThrowableProblem problem = new DefaultProblem(
+                    standardUri, null, null, null, null, null, null);
+
+            assertEquals(standardUri, problem.getType());
+        }
+
+        @Test
+        @DisplayName("3.3. input type is a custom scheme URI")
+        public void testGetTypeWithCustomSchemeUri() {
+            URI customUri = URI.create("problem:out-of-stock");
+            AbstractThrowableProblem problem = new DefaultProblem(
+                    customUri, null, null, null, null, null, null);
+
+            assertEquals(customUri, problem.getType());
+        }
+
+        @Test
+        @DisplayName("3.4. input type is a URI with query parameters")
+        public void testGetTypeWithUriWithQueryParameters() {
+            URI uriWithQuery = URI.create("https://example.org/problems/test?param=value");
+            AbstractThrowableProblem problem = new DefaultProblem(
+                    uriWithQuery, null, null, null, null, null, null);
+
+            assertEquals(uriWithQuery, problem.getType());
+        }
+
+        @Test
+        @DisplayName("3.5. input type is a URI with fragment")
+        public void testGetTypeWithUriWithFragment() {
+            URI uriWithFragment = URI.create("https://example.org/problems/test#section");
+            AbstractThrowableProblem problem = new DefaultProblem(
+                    uriWithFragment, null, null, null, null, null, null);
+
+            assertEquals(uriWithFragment, problem.getType());
+        }
     }
 
     @Nested
