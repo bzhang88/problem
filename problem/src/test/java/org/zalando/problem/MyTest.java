@@ -471,15 +471,62 @@ public class MyTest {
     }
 
     @Nested
-    class TestCase_4 {
+    class TestCase_4_DefaultProblem_GetTitleFunction {
+        @Test
+        @DisplayName("4.1 title is null")
+        public void testGetTitleWithNullTitle() {
+            AbstractThrowableProblem problem = new DefaultProblem(
+                    null, null, null, null, null, null, null);
+
+            assertNull(problem.getTitle());
+        }
+
+        @Test
+        @DisplayName("4.2 non-empty title")
+        public void testGetTitleWithNonEmptyTitle() {
+            String title = "Test Problem";
+            AbstractThrowableProblem problem = new DefaultProblem(
+                    null, title, null, null, null, null, null);
+
+            assertEquals(title, problem.getTitle());
+        }
+
+        @Test
+        @DisplayName("4.3 when title is empty")
+        public void testGetTitleWithEmptyTitle() {
+            AbstractThrowableProblem problem = new DefaultProblem(
+                    null, "", null, null, null, null, null);
+
+            assertEquals("", problem.getTitle());
+        }
+
+        @Test
+        @DisplayName("4.4 title with special characters")
+        public void testGetTitleWithSpecialCharacters() {
+            String titleWithSpecialChars = "Problem: 特殊字符 & <symbols> 😀";
+            AbstractThrowableProblem problem = new DefaultProblem(
+                    null, titleWithSpecialChars, null, null, null, null, null);
+
+            assertEquals(titleWithSpecialChars, problem.getTitle());
+        }
+
+        @Test
+        @DisplayName("4.5 very long title")
+        public void testGetTitleWithVeryLongTitle() {
+            String longTitle = "This is a very long title that contains more than a hundred characters to test how the getTitle method handles long string values.";
+            AbstractThrowableProblem problem = new DefaultProblem(
+                    null, longTitle, null, null, null, null, null);
+
+            assertEquals(longTitle, problem.getTitle());
+        }
     }
 
     @Nested
-    class TestCase_5 {
+    class TestCase_5_DefaultProblem_GetTypeFunction {
     }
 
     @Nested
-    class TestCase_6 {
+    class TestCase_6_DefaultProblem_GetTypeFunction {
     }
 
     @Nested
