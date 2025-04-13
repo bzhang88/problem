@@ -658,7 +658,80 @@ public class MyTest {
     }
 
     @Nested
-    class TestCase_7 {
+    class TestCase_7_DefaultProblem_GetParametersFunction {
+        @Test
+        @DisplayName("7.1. parameters is null")
+        public void testGetParametersWithNullParameters() {
+            AbstractThrowableProblem problem = new DefaultProblem(
+                    null, null, null, null, null, null, null);
+
+            assertNotNull(problem.getParameters());
+            assertTrue(problem.getParameters().isEmpty());
+        }
+
+        @Test
+        @DisplayName("7.2. empty parameters")
+        public void testGetParametersWithEmptyParameters() {
+            AbstractThrowableProblem problem = new DefaultProblem(
+                    null, null, null, null, null, null, new HashMap<>());
+
+            assertNotNull(problem.getParameters());
+            assertTrue(problem.getParameters().isEmpty());
+        }
+
+        @Test
+        @DisplayName("7.3. parameters with string values")
+        public void testGetParametersWithStringValues() {
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("param1", "value1");
+            parameters.put("param2", "value2");
+
+            AbstractThrowableProblem problem = new DefaultProblem(
+                    null, null, null, null, null, null, parameters);
+
+            assertEquals(2, problem.getParameters().size());
+            assertEquals("value1", problem.getParameters().get("param1"));
+            assertEquals("value2", problem.getParameters().get("param2"));
+        }
+
+        @Test
+        @DisplayName("7.4. parameters with various value types")
+        public void testGetParametersWithVariousValueTypes() {
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("stringParam", "value");
+            parameters.put("intParam", 42);
+            parameters.put("boolParam", true);
+            parameters.put("nullParam", null);
+
+            AbstractThrowableProblem problem = new DefaultProblem(
+                    null, null, null, null, null, null, parameters);
+
+            assertEquals(4, problem.getParameters().size());
+            assertEquals("value", problem.getParameters().get("stringParam"));
+            assertEquals(42, problem.getParameters().get("intParam"));
+            assertEquals(true, problem.getParameters().get("boolParam"));
+            assertNull(problem.getParameters().get("nullParam"));
+        }
+
+        @Test
+        @DisplayName("7.5. parameters with nested map")
+        public void testGetParametersWithNestedMap() {
+            Map<String, Object> nestedMap = new HashMap<>();
+            nestedMap.put("nestedKey", "nestedValue");
+
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("param", "value");
+            parameters.put("nestedMap", nestedMap);
+
+            AbstractThrowableProblem problem = new DefaultProblem(
+                    null, null, null, null, null, null, parameters);
+
+            assertEquals(2, problem.getParameters().size());
+            assertEquals("value", problem.getParameters().get("param"));
+
+            Map<?, ?> returnedNestedMap = (Map<?, ?>) problem.getParameters().get("nestedMap");
+            assertEquals("nestedValue", returnedNestedMap.get("nestedKey"));
+        }
     }
 
     @Nested
