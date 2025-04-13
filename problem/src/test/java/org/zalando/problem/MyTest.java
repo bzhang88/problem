@@ -866,7 +866,85 @@ public class MyTest {
     }
 
     @Nested
-    class TestCase_10 {
+    class TestCase_10_Status_ValueOfFunction {
+        @Test
+        @DisplayName("10.1. correct status codes")
+        public void testValueOfCorrectInput() {
+            assertEquals(Status.CONTINUE, Status.valueOf(100));
+            assertEquals(Status.SWITCHING_PROTOCOLS, Status.valueOf(101));
+            assertEquals(Status.PROCESSING, Status.valueOf(102));
+            assertEquals(Status.CHECKPOINT, Status.valueOf(103));
+            assertEquals(Status.OK, Status.valueOf(200));
+            assertEquals(Status.CREATED, Status.valueOf(201));
+            assertEquals(Status.ACCEPTED, Status.valueOf(202));
+            assertEquals(Status.NON_AUTHORITATIVE_INFORMATION, Status.valueOf(203));
+            assertEquals(Status.NO_CONTENT, Status.valueOf(204));
+            assertEquals(Status.RESET_CONTENT, Status.valueOf(205));
+            assertEquals(Status.PARTIAL_CONTENT, Status.valueOf(206));
+            assertEquals(Status.MULTI_STATUS, Status.valueOf(207));
+            assertEquals(Status.ALREADY_REPORTED, Status.valueOf(208));
+            assertEquals(Status.IM_USED, Status.valueOf(226));
+            assertEquals(Status.MULTIPLE_CHOICES, Status.valueOf(300));
+            assertEquals(Status.MOVED_PERMANENTLY, Status.valueOf(301));
+            assertEquals(Status.FOUND, Status.valueOf(302));
+            assertEquals(Status.SEE_OTHER, Status.valueOf(303));
+            assertEquals(Status.NOT_MODIFIED, Status.valueOf(304));
+            assertEquals(Status.USE_PROXY, Status.valueOf(305));
+            assertEquals(Status.TEMPORARY_REDIRECT, Status.valueOf(307));
+            assertEquals(Status.PERMANENT_REDIRECT, Status.valueOf(308));
+            assertEquals(Status.BAD_REQUEST, Status.valueOf(400));
+            assertEquals(Status.UNAUTHORIZED, Status.valueOf(401));
+            assertEquals(Status.PAYMENT_REQUIRED, Status.valueOf(402));
+            assertEquals(Status.FORBIDDEN, Status.valueOf(403));
+            assertEquals(Status.NOT_FOUND, Status.valueOf(404));
+            assertEquals(Status.METHOD_NOT_ALLOWED, Status.valueOf(405));
+            assertEquals(Status.NOT_ACCEPTABLE, Status.valueOf(406));
+            assertEquals(Status.PROXY_AUTHENTICATION_REQUIRED, Status.valueOf(407));
+            assertEquals(Status.REQUEST_TIMEOUT, Status.valueOf(408));
+            assertEquals(Status.CONFLICT, Status.valueOf(409));
+            assertEquals(Status.GONE, Status.valueOf(410));
+            assertEquals(Status.LENGTH_REQUIRED, Status.valueOf(411));
+            assertEquals(Status.PRECONDITION_FAILED, Status.valueOf(412));
+            assertEquals(Status.REQUEST_ENTITY_TOO_LARGE, Status.valueOf(413));
+            assertEquals(Status.REQUEST_URI_TOO_LONG, Status.valueOf(414));
+            assertEquals(Status.UNSUPPORTED_MEDIA_TYPE, Status.valueOf(415));
+            assertEquals(Status.REQUESTED_RANGE_NOT_SATISFIABLE, Status.valueOf(416));
+            assertEquals(Status.EXPECTATION_FAILED, Status.valueOf(417));
+            assertEquals(Status.I_AM_A_TEAPOT, Status.valueOf(418));
+            assertEquals(Status.UNPROCESSABLE_ENTITY, Status.valueOf(422));
+            assertEquals(Status.LOCKED, Status.valueOf(423));
+            assertEquals(Status.FAILED_DEPENDENCY, Status.valueOf(424));
+            assertEquals(Status.UPGRADE_REQUIRED, Status.valueOf(426));
+            assertEquals(Status.PRECONDITION_REQUIRED, Status.valueOf(428));
+            assertEquals(Status.TOO_MANY_REQUESTS, Status.valueOf(429));
+            assertEquals(Status.REQUEST_HEADER_FIELDS_TOO_LARGE, Status.valueOf(431));
+            assertEquals(Status.UNAVAILABLE_FOR_LEGAL_REASONS, Status.valueOf(451));
+            assertEquals(Status.INTERNAL_SERVER_ERROR, Status.valueOf(500));
+            assertEquals(Status.NOT_IMPLEMENTED, Status.valueOf(501));
+            assertEquals(Status.BAD_GATEWAY, Status.valueOf(502));
+            assertEquals(Status.SERVICE_UNAVAILABLE, Status.valueOf(503));
+            assertEquals(Status.GATEWAY_TIMEOUT, Status.valueOf(504));
+            assertEquals(Status.HTTP_VERSION_NOT_SUPPORTED, Status.valueOf(505));
+            assertEquals(Status.VARIANT_ALSO_NEGOTIATES, Status.valueOf(506));
+            assertEquals(Status.INSUFFICIENT_STORAGE, Status.valueOf(507));
+            assertEquals(Status.LOOP_DETECTED, Status.valueOf(508));
+            assertEquals(Status.BANDWIDTH_LIMIT_EXCEEDED, Status.valueOf(509));
+            assertEquals(Status.NOT_EXTENDED, Status.valueOf(510));
+            assertEquals(Status.NETWORK_AUTHENTICATION_REQUIRED, Status.valueOf(511));
+        }
+
+        @ParameterizedTest
+        @ValueSource(ints = {-1, 0, 600, 999})
+        @DisplayName("10.2. unknown status codes")
+        public void testValueOfThrowsExceptionForUnknownCodes(int unknownCode) {
+            IllegalArgumentException exception = assertThrows(
+                    IllegalArgumentException.class,
+                    () -> Status.valueOf(unknownCode)
+            );
+
+            assertTrue(exception.getMessage().contains(Integer.toString(unknownCode)));
+            assertTrue(exception.getMessage().contains("There is no known status"));
+        }
     }
 
 
