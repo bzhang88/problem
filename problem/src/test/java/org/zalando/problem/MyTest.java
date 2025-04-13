@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import javax.xml.crypto.Data;
@@ -15,6 +16,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -735,11 +738,85 @@ public class MyTest {
     }
 
     @Nested
-    class TestCase_8 {
+    class TestCase_8_Status_GetCauseFunction {
+        @Test
+        @DisplayName("8.1. cause is null")
+        public void testGetCauseWithNullCause() {
+            DefaultProblem problem = new DefaultProblem(
+                    null, null, null, null, null, null, null);
+
+            assertNull(problem.getCause());
+        }
+
+        @Test
+        @DisplayName("8.2. empty cause")
+        public void testGetCauseWithEmptyCause() {
+            DefaultProblem cause = new DefaultProblem(
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null);
+
+            DefaultProblem problem = new DefaultProblem(
+                    null, null, null, null, null, cause, null);
+
+            assertNotNull(problem.getCause());
+            assertEquals(cause, problem.getCause());
+        }
+
+        @Test
+        @DisplayName("8.3. non empty cause")
+        public void testGetCauseWithProvidedCause() {
+            DefaultProblem cause = new DefaultProblem(
+                    URI.create("https://example.org/problems/cause"),
+                    "Cause Problem",
+                    null,
+                    "This is the cause",
+                    null,
+                    null,
+                    null);
+
+            DefaultProblem problem = new DefaultProblem(
+                    null, null, null, null, null, cause, null);
+
+            assertEquals(cause, problem.getCause());
+        }
+
+        @Test
+        @DisplayName("8.4. cause with nested cause")
+        public void testGetCauseWithNestedCause() {
+            DefaultProblem nestedCause = new DefaultProblem(
+                    URI.create("https://example.org/problems/nested-cause"),
+                    "Nested Cause Problem",
+                    null,
+                    "This is the nested cause",
+                    null,
+                    null,
+                    null);
+
+            DefaultProblem cause = new DefaultProblem(
+                    URI.create("https://example.org/problems/cause"),
+                    "Cause Problem",
+                    null,
+                    "This is the cause",
+                    null,
+                    nestedCause,
+                    null);
+
+            DefaultProblem problem = new DefaultProblem(
+                    null, null, null, null, null, cause, null);
+
+            assertEquals(cause, problem.getCause());
+            assertEquals(nestedCause, ((DefaultProblem) problem.getCause()).getCause());
+        }
     }
 
     @Nested
     class TestCase_9 {
+
     }
 
     @Nested
