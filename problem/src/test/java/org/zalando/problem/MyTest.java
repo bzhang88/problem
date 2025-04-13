@@ -738,7 +738,7 @@ public class MyTest {
     }
 
     @Nested
-    class TestCase_8_Status_GetCauseFunction {
+    class TestCase_8_DefaultProblem_GetCauseFunction {
         @Test
         @DisplayName("8.1. cause is null")
         public void testGetCauseWithNullCause() {
@@ -815,8 +815,54 @@ public class MyTest {
     }
 
     @Nested
-    class TestCase_9 {
+    class TestCase_9_DefaultProblem_getMessageFunction {
+        private static final String VALID_TITLE = "Test Problem";
+        private static final String VALID_DETAIL = "This is a test problem detail";
 
+        @Test
+        @DisplayName("9.1. both title and detail")
+        public void testGetMessageWithTitleAndDetail() {
+            DefaultProblem problem = new DefaultProblem(
+                    null, VALID_TITLE, null, VALID_DETAIL, null, null);
+
+            assertEquals(VALID_TITLE + ": " + VALID_DETAIL, problem.getMessage());
+        }
+
+        @Test
+        @DisplayName("9.2. only title")
+        public void testGetMessageWithTitleOnly() {
+            DefaultProblem problem = new DefaultProblem(
+                    null, VALID_TITLE, null, null, null, null);
+
+            assertEquals(VALID_TITLE, problem.getMessage());
+        }
+
+        @Test
+        @DisplayName("9.3. only detail")
+        public void testGetMessageWithDetailOnly() {
+            DefaultProblem problem = new DefaultProblem(
+                    null, null, null, VALID_DETAIL, null, null);
+
+            assertEquals(VALID_DETAIL, problem.getMessage());
+        }
+
+        @Test
+        @DisplayName("9.4. title and detail are null")
+        public void testGetMessageWithNullTitleAndDetail() {
+            DefaultProblem problem = new DefaultProblem(
+                    null, null, null, null, null, null);
+
+            assertEquals("", problem.getMessage());
+        }
+
+        @Test
+        @DisplayName("9.5. empty title and detail")
+        public void testGetMessageWithEmptyTitleAndDetail() {
+            DefaultProblem problem = new DefaultProblem(
+                    null, "", null, "", null, null);
+
+            assertEquals(": ", problem.getMessage());
+        }
     }
 
     @Nested
